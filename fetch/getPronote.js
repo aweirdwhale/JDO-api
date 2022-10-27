@@ -1,5 +1,5 @@
-import fetch from 'node-fetch';
-import { login, errors } from 'pronote-api-again';
+//import fetch from 'node-fetch';
+const pronote = require('pronote-api-again');
 
 //when user logins, we get the username and password from the database and use it to fetch the data from pronote
 // fetch('http://localhost:27017/users')
@@ -14,14 +14,14 @@ import { login, errors } from 'pronote-api-again';
 
 
 const url = 'https://0134252b.index-education.net/pronote/eleve.html';
-// const username = 'username';
-// const password = 'passwd';
+const username = 'username';
+const password = 'pwd';
 const cas = 'atrium-sud';
 
 
 
 async function main() {
-    const session = await login(url, user.username, user.password, cas);
+    const session = await pronote.login(url, username, password, cas);
     
     console.log(session.user.name); // Affiche le nom de l'élève
     console.log(session.user.studentClass.name); // Affiche la classe de l'élève
@@ -38,11 +38,9 @@ async function main() {
 }
 
 main().catch(err => {
-    if (err.code === errors.WRONG_CREDENTIALS.code) {
+    if (err.code === pronote.errors.WRONG_CREDENTIALS.code) {
         console.error('Mauvais identifiants');    
     } else {
         console.error(err);
     }
 });
-
-export default { main };
